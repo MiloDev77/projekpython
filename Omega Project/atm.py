@@ -55,7 +55,7 @@ def transfer(tingkatan, user, tingkatantarget, rekeningtarget, nominal, namabank
         if nominal < saldoUtama:
             akun[tingkatan][user]["saldo"] = saldoUtama - nominal
             akun[tingkatantarget][rekeningtarget]["saldo"] = saldoTarget + nominal
-            print(f"\n=== TRANSFER SUKSES ===\nNama Bank Dituju: {namabank}\nNama Akun: {konversi(tingkatantarget, rekeningtarget, "nama")}\Nominal Transfer: {nominal}\nSaldo Anda Sekarang: {konversi(tingkatan, user, "saldo")}")
+            print(f"\n=== TRANSFER SUKSES ===\nNama Bank Dituju: {namabank}\nNama Akun: {konversi(tingkatantarget, rekeningtarget, 'nama')}\nNominal Transfer: {nominal}\nSaldo Anda Sekarang: {konversi(tingkatan, user, 'saldo')}")
         elif nominal < 0:
             print("\nNominal tidak valid!")
         else:
@@ -166,13 +166,56 @@ def anggota(userAnggota):
 
 # 🎇 Admin Mode (Fitur Eksklusif Admin Mode) 🎇
 def saldoAnggota():
-    pass
+    if len(akun["anggota"]) == 0:
+        print ("\n Belum ada anggota yang terdaftar")
+        return
+    total = 0
+    for norek in akun["anggota"]:
+        total += akun["anggota"][norek]["saldo"]
+    print (f"\n=== TOTAL SALDO ANGGOTA ===\nJumlah akun anggota: {len(akun['anggota'])}\nTotal saldo seluruh anggota: {total}")
 def cekAkun():
-    pass
+    if len(akun["anggota"]) == 0:
+        print ("\nBelum ada anggota yang terdaftar")
+        return
+    norek = int(input("\nMasukkan nomor rekening anggota yang ingin di cek: ")).strip()
+    if norek in akun["anggota"]:
+        data = akun["anggota"][norek]
+        print(f"\n=== DETAIL AKUN ANGGOTA ===\nNomor Rekening: {norek}\nNama: {data['nama']}\nUmur: {data['umur']}\nStatus: {data['status']}\nSaldo: {data['saldo']}")
+    else:
+        print ("\nNomor rekening tidak ditemukan")
 def buatAkun():
-    pass
+    nomorRekening = rekening()
+    nama = str(input("\nIsi data berikut ini\nNama Lengkap: ")).lower().strip().title()
+    umur = int(input("Umur: "))
+    status = str(input("Status pekerjaan: "))
+    pin = str(input("Buat pin yang kuat (4): ")).strip()
+
+    while len(pin) != 4:
+        pin = int(input("Pin yang dimasukkan terlalu banyak! \nBuat pin yang kuat (4): ")).strip()
+    akun["anggota"][nomorRekening] = {
+        "nama": nama,
+        "umur": umur,
+        "status": status,
+        "pin": pin,
+        "saldo": 100000
+    }
+    print(f"\n=== AKUN BERHASIL DIBUAT ===\nNomor rekening: {nomorRekening}\nPin: {pin}\nSaldo awal: 1000000\n")
 def hapusAkun():
-    pass
+    if len(akun["anggota"]) == 0:
+        print ("\n Belum ada anggota yang terdaftar")
+        return
+    norek = int(input("\nMasukkan nomor rekening anggota yang ingin dihapus: ")).strip()
+    if norek in akun["anggota"]:
+        konfirmasi = str(input(f"Apakah anda yakin ingin menghapus {akun['anggota'][norek]['nama']} dengan nomor rekening {norek}? (ya/tidak)"))
+        if konfirmasi == "ya":
+            del akun["anggota"][norek]
+            print ("\nAkun berhasil dihapus")
+        elif konfirmasi == "tidak":
+            print ("\nPenghapusan dibatalkan")
+        else:
+            str(input("Error!!! Masukkan kembali pilihan anda: (ya/tidak)"))
+    else:
+        print ("\nNomor rekening tidak ditemukan")
 
 def admin(userAdmin):
     pin = ""
@@ -239,12 +282,16 @@ def admin(userAdmin):
                     tarikTunai("admin", userAdmin, nominalPenarikan)
                 perulangan = True
             case 7:
+                saldoAnggota()
                 perulangan = True
             case 8:
+                cekAkun()
                 perulangan = True
             case 9:
+                buatAkun()
                 perulangan = True
             case 10:
+                hapusAkun()
                 perulangan = True
             case 11:
                 print(f"\n=== Terima kasih telah menggunakan ATM ini. Sampai jumpa kembali {konversi("admin", userAdmin, "nama")}!! 👋 ===\n")

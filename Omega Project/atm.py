@@ -104,9 +104,11 @@ def anggota(userAnggota):
                 nominal = int(input("\nMasukkan nominal yang ingin diisi (tambahkan 2000 sebagai biaya admin): "))
                 isiSaldo("anggota", userAnggota, nominal)
                 perulangan = True
+
             case 2:
                 cekSaldo("anggota", userAnggota)
                 perulangan = True
+
             case 3:
                 jenisTingkatan = int(input("\n1) Admin\n2) Member\nKetik opsi angka di atas untuk memilih tingkat keanggotaan yang dituju (default \"Member\"): "))
                 pilihanTingkatan = "admin" if jenisTingkatan == 1 else "anggota"
@@ -120,6 +122,7 @@ def anggota(userAnggota):
                 else:
                     transfer("anggota", userAnggota, pilihanTingkatan, norekening, nominaltfr, "Sesama bank")
                 perulangan = True
+
             case 4:
                 jenisTingkatan = int(input("\n1) Admin\n2) Member\nKetik opsi angka di atas untuk memilih tingkat keanggotaan yang dituju: "))
                 pilihanTingkatan = "admin" if jenisTingkatan == 1 else "anggota"
@@ -135,6 +138,7 @@ def anggota(userAnggota):
                 else:
                     transfer("anggota", userAnggota, pilihanTingkatan, norekening, nominalAkhir, rekeningbank)
                 perulangan = True
+
             case 5:
                 jenisTagihan = input("Jenis tagihan: ").strip()
                 idTagihan = input("ID tagihan (berupa angka): ").strip()
@@ -147,6 +151,7 @@ def anggota(userAnggota):
                 else:
                     bayarTagihan("anggota", userAnggota, jenisTagihan, idTagihan, nominalTagihan)
                 perulangan = True
+
             case 6:
                 nominalPenarikan = int(input("Jumlah nominal ingin ditarik: "))
                 pin = input("Masukkan pin anda: ").strip()
@@ -157,12 +162,15 @@ def anggota(userAnggota):
                 else:
                     tarikTunai("anggota", userAnggota, nominalPenarikan)
                 perulangan = True
+
             case 7:
                 print(f"\n=== Terima kasih telah menggunakan ATM ini. Sampai jumpa kembali {konversi("anggota", userAnggota, "nama")}!! 👋 ===\n")
                 perulangan = False
+
             case _:
                 print("\nKetik opsi dengan benar!")
                 perulangan = True
+
 
 # 🎇 Admin Mode (Fitur Eksklusif Admin Mode) 🎇
 def saldoAnggota():
@@ -173,6 +181,7 @@ def saldoAnggota():
     for norek in akun["anggota"]:
         total += akun["anggota"][norek]["saldo"]
     print (f"\n=== TOTAL SALDO ANGGOTA ===\nJumlah akun anggota: {len(akun['anggota'])}\nTotal saldo seluruh anggota: {total}")
+
 def cekAkun():
     if len(akun["anggota"]) == 0:
         print ("\nBelum ada anggota yang terdaftar")
@@ -183,6 +192,7 @@ def cekAkun():
         print(f"\n=== DETAIL AKUN ANGGOTA ===\nNomor Rekening: {norek}\nNama: {data['nama']}\nUmur: {data['umur']}\nStatus: {data['status']}\nSaldo: {data['saldo']}")
     else:
         print ("\nNomor rekening tidak ditemukan")
+
 def buatAkun():
     nomorRekening = rekening()
     nama = str(input("\nIsi data berikut ini\nNama Lengkap: ")).lower().strip().title()
@@ -200,6 +210,7 @@ def buatAkun():
         "saldo": 100000
     }
     print(f"\n=== AKUN BERHASIL DIBUAT ===\nNomor rekening: {nomorRekening}\nPin: {pin}\nSaldo awal: 1000000\n")
+
 def hapusAkun():
     if len(akun["anggota"]) == 0:
         print ("\n Belum ada anggota yang terdaftar")
@@ -228,9 +239,11 @@ def admin(userAdmin):
                 nominal = int(input("\nMasukkan nominal yang ingin diisi (tambahkan 2000 sebagai biaya admin): "))
                 isiSaldo("admin", userAdmin, nominal)
                 perulangan = True
+
             case 2:
                 cekSaldo("admin", userAdmin)
                 perulangan = True
+
             case 3:
                 jenisTingkatan = int(input("\n1) Admin\n2) Member\nKetik opsi angka di atas untuk memilih tingkat keanggotaan yang dituju (default \"Member\"): "))
                 pilihanTingkatan = "admin" if jenisTingkatan == 1 else "anggota"
@@ -244,6 +257,7 @@ def admin(userAdmin):
                 else:
                     transfer("admin", userAdmin, pilihanTingkatan, norekening, nominaltfr, "Sesama bank")
                 perulangan = True
+
             case 4:
                 jenisTingkatan = int(input("\n1) Admin\n2) Member\nKetik opsi angka di atas untuk memilih tingkat keanggotaan yang dituju: "))
                 pilihanTingkatan = "admin" if jenisTingkatan == 1 else "anggota"
@@ -259,6 +273,7 @@ def admin(userAdmin):
                 else:
                     transfer("admin", userAdmin, pilihanTingkatan, norekening, nominalAkhir, rekeningbank)
                 perulangan = True
+
             case 5:
                 jenisTagihan = input("Jenis tagihan: ").strip()
                 idTagihan = input("ID tagihan (berupa angka): ").strip()
@@ -271,6 +286,7 @@ def admin(userAdmin):
                 else:
                     bayarTagihan("admin", userAdmin, jenisTagihan, idTagihan, nominalTagihan)
                 perulangan = True
+                
             case 6:
                 nominalPenarikan = int(input("Jumlah nominal ingin ditarik: "))
                 pin = input("Masukkan pin anda: ").strip()
@@ -281,24 +297,31 @@ def admin(userAdmin):
                 else:
                     tarikTunai("admin", userAdmin, nominalPenarikan)
                 perulangan = True
+                
             case 7:
                 saldoAnggota()
                 perulangan = True
+                
             case 8:
                 cekAkun()
                 perulangan = True
+                
             case 9:
                 buatAkun()
                 perulangan = True
+                
             case 10:
                 hapusAkun()
                 perulangan = True
+                
             case 11:
                 print(f"\n=== Terima kasih telah menggunakan ATM ini. Sampai jumpa kembali {konversi("admin", userAdmin, "nama")}!! 👋 ===\n")
                 perulangan = False
+                
             case _:
                 print("Ketik opsi dengan benar!")
                 perulangan = True
+                
 
 # Sesi Daftar dan Login 
 def daftar():

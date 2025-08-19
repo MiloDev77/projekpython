@@ -98,7 +98,7 @@ def anggota(userAnggota):
     perulangan = True
     while perulangan == True:
         print(f"\n=== Selamat Datang! {konversi("anggota", userAnggota, "nama")} ===")
-        fitur = int(input("Silahkan pilih beberapa aksi berikut!\n1. Isi Saldo\n2. Cek Saldo\n3. Transfer Sesama Bank\n4. Transfer Antar Bank\n5. Bayar Tagihan\n6. Tarik Tunai\n7. Logout\nKetik angka di atas untuk memilih aksi: "))
+        fitur = int(input("Silahkan pilih beberapa aksi berikut!\n1. Isi Saldo\n2. Cek Saldo\n3. Transfer Sesama Bank\n4. Transfer Antar Bank\n5. Bayar Tagihan\n6. Tarik Tunai\n7. Ubah Pin\n8. Logout\nKetik angka di atas untuk memilih aksi: "))
         match fitur:
             case 1:
                 nominal = int(input("\nMasukkan nominal yang ingin diisi (tambahkan 2000 sebagai biaya admin): "))
@@ -164,6 +164,19 @@ def anggota(userAnggota):
                 perulangan = True
 
             case 7:
+                pin = input("Masukkan pin anda: ").strip()
+                while verifikasi("anggota", userAnggota, pin) != True and pin != "keluar":
+                    pin = input("Pin salah! Masukkan dengan pin benar: ").strip()
+                if pin == "keluar":
+                    print("\nPengubahan pin dibatalkan")
+                else:
+                    pinBaru = input("Masukkan pin baru anda (4 digit): ").strip()
+                    while len(pinBaru) != 4:
+                        pinBaru = input("Pin yang dimasukkan terlalu banyak! \nMasukkan pin baru anda (4 digit): ").strip()
+                    akun["anggota"][userAnggota]["pin"] = pinBaru
+                    print(f"\n=== PIN BERHASIL DIUBAH ===\nPin baru anda: {pinBaru}\n")
+
+            case 8:
                 print(f"\n=== Terima kasih telah menggunakan ATM ini. Sampai jumpa kembali {konversi("anggota", userAnggota, "nama")}!! 👋 ===\n")
                 perulangan = False
 
@@ -186,7 +199,9 @@ def cekAkun():
     if len(akun["anggota"]) == 0:
         print ("\nBelum ada anggota yang terdaftar")
         return
-    norek = int(input("\nMasukkan nomor rekening anggota yang ingin di cek: ")).strip()
+    for x, data in akun["anggota"].items():
+        print(f"\nNomor Rekening: {x}")
+    norek = int(input("\nMasukkan nomor rekening anggota yang ingin di cek: "))
     if norek in akun["anggota"]:
         data = akun["anggota"][norek]
         print(f"\n=== DETAIL AKUN ANGGOTA ===\nNomor Rekening: {norek}\nNama: {data['nama']}\nUmur: {data['umur']}\nStatus: {data['status']}\nSaldo: {data['saldo']}")
@@ -215,6 +230,9 @@ def hapusAkun():
     if len(akun["anggota"]) == 0:
         print ("\n Belum ada anggota yang terdaftar")
         return
+    print("\n=== DAFTAR NOMOR REKENING ANGGOTA ===")
+    for norek in akun["anggota"]:
+        print(f"Nomor Rekening: {norek} | Nama: {akun['anggota'][norek]['nama']}")
     norek = int(input("\nMasukkan nomor rekening anggota yang ingin dihapus: ")).strip()
     if norek in akun["anggota"]:
         konfirmasi = str(input(f"Apakah anda yakin ingin menghapus {akun['anggota'][norek]['nama']} dengan nomor rekening {norek}? (ya/tidak)"))
@@ -233,7 +251,7 @@ def admin(userAdmin):
     perulangan = True
     while perulangan == True:
         print(f"\n=== Halo {konversi("admin", userAdmin, "nama")} 👋 ===")
-        fitur = int(input("Silahkan pilih beberapa aksi berikut!\n1. Isi Saldo\n2. Cek Saldo\n3. Transfer Sesama Bank\n4. Transfer Antar Bank\n5. Bayar Tagihan\n6. Tarik Tunai\n\n✨Fitur Admin✨\n7. Total Saldo Anggota\n8. Cek Akun Anggota\n9. Buat Akun Anggota\n10. Hapus Akun Anggota\n11. Logout\nKetik angka di atas untuk memilih aksi: "))
+        fitur = int(input("Silahkan pilih beberapa aksi berikut!\n1. Isi Saldo\n2. Cek Saldo\n3. Transfer Sesama Bank\n4. Transfer Antar Bank\n5. Bayar Tagihan\n6. Tarik Tunai\n7. Ubah Pin\n\n✨Fitur Admin✨\n8. Total Saldo Anggota\n9. Cek Akun Anggota\n10. Buat Akun Anggota\n11. Hapus Akun Anggota\n12. Logout\nKetik angka di atas untuk memilih aksi: "))
         match fitur:
             case 1:
                 nominal = int(input("\nMasukkan nominal yang ingin diisi (tambahkan 2000 sebagai biaya admin): "))
@@ -299,22 +317,35 @@ def admin(userAdmin):
                 perulangan = True
                 
             case 7:
+                pin = input("Masukkan pin anda: ").strip()
+                while verifikasi("anggota", userAdmin, pin) != True and pin != "keluar":
+                    pin = input("Pin salah! Masukkan dengan pin benar: ").strip()
+                if pin == "keluar":
+                    print("\nPengubahan pin dibatalkan")
+                else:
+                    pinBaru = input("Masukkan pin baru anda (4 digit): ").strip()
+                    while len(pinBaru) != 4:
+                        pinBaru = input("Pin yang dimasukkan terlalu banyak! \nMasukkan pin baru anda (4 digit): ").strip()
+                    akun["anggota"][userAdmin]["pin"] = pinBaru
+                    print(f"\n=== PIN BERHASIL DIUBAH ===\nPin baru anda: {pinBaru}\n")
+
+            case 8:
                 saldoAnggota()
                 perulangan = True
                 
-            case 8:
+            case 9:
                 cekAkun()
                 perulangan = True
                 
-            case 9:
+            case 10:
                 buatAkun()
                 perulangan = True
                 
-            case 10:
+            case 11:
                 hapusAkun()
                 perulangan = True
                 
-            case 11:
+            case 12:
                 print(f"\n=== Terima kasih telah menggunakan ATM ini. Sampai jumpa kembali {konversi("admin", userAdmin, "nama")}!! 👋 ===\n")
                 perulangan = False
                 

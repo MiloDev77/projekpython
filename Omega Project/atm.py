@@ -199,9 +199,13 @@ def cekAkun():
     if len(akun["anggota"]) == 0:
         print ("\nBelum ada anggota yang terdaftar")
         return
+<<<<<<< HEAD
     for x, data in akun["anggota"].items():
         print(f"\nNomor Rekening: {x}")
     norek = int(input("\nMasukkan nomor rekening anggota yang ingin di cek: "))
+=======
+    norek = input("\nMasukkan nomor rekening anggota yang ingin di cek: ").strip()
+>>>>>>> 6aa5a2f2215889ddb200bdcf6dcc1ba9e30612f2
     if norek in akun["anggota"]:
         data = akun["anggota"][norek]
         print(f"\n=== DETAIL AKUN ANGGOTA ===\nNomor Rekening: {norek}\nNama: {data['nama']}\nUmur: {data['umur']}\nStatus: {data['status']}\nSaldo: {data['saldo']}")
@@ -213,16 +217,16 @@ def buatAkun():
     nama = str(input("\nIsi data berikut ini\nNama Lengkap: ")).lower().strip().title()
     umur = int(input("Umur: "))
     status = str(input("Status pekerjaan: "))
-    pin = str(input("Buat pin yang kuat (4): ")).strip()
+    pin = input("Buat pin yang kuat (4): ").strip()
 
     while len(pin) != 4:
-        pin = int(input("Pin yang dimasukkan terlalu banyak! \nBuat pin yang kuat (4): ")).strip()
+        pin = input("Pin yang dimasukkan terlalu banyak! \nBuat pin yang kuat (4): ").strip()
     akun["anggota"][nomorRekening] = {
         "nama": nama,
         "umur": umur,
         "status": status,
         "pin": pin,
-        "saldo": 100000
+        "saldo": 1000000
     }
     print(f"\n=== AKUN BERHASIL DIBUAT ===\nNomor rekening: {nomorRekening}\nPin: {pin}\nSaldo awal: 1000000\n")
 
@@ -230,12 +234,16 @@ def hapusAkun():
     if len(akun["anggota"]) == 0:
         print ("\n Belum ada anggota yang terdaftar")
         return
+<<<<<<< HEAD
     print("\n=== DAFTAR NOMOR REKENING ANGGOTA ===")
     for norek in akun["anggota"]:
         print(f"Nomor Rekening: {norek} | Nama: {akun['anggota'][norek]['nama']}")
     norek = int(input("\nMasukkan nomor rekening anggota yang ingin dihapus: ")).strip()
+=======
+    norek = input("\nMasukkan nomor rekening anggota yang ingin dihapus: ").strip()
+>>>>>>> 6aa5a2f2215889ddb200bdcf6dcc1ba9e30612f2
     if norek in akun["anggota"]:
-        konfirmasi = str(input(f"Apakah anda yakin ingin menghapus {akun['anggota'][norek]['nama']} dengan nomor rekening {norek}? (ya/tidak)"))
+        konfirmasi = str(input(f"Apakah anda yakin ingin menghapus {akun['anggota'][norek]['nama']} dengan nomor rekening {norek}? (ya/tidak): "))
         if konfirmasi == "ya":
             del akun["anggota"][norek]
             print ("\nAkun berhasil dihapus")
@@ -370,7 +378,7 @@ def daftar():
         "pin": pin,
         "saldo": 1000000
     }
-    print(f"\nSilahkan catat data anda berikut!\nNomor rekening anda: {nomorRekening}\nPin anda: {pin}\nSelamat anda telah membuat akun! (gratis saldo 1000000 untuk fresh account)\n")
+    print(f"\n=== Akun Berhasil Dibuat ===\nSilahkan catat data anda berikut!\nNomor rekening anda: {nomorRekening}\nPin anda: {pin}\nSelamat anda telah membuat akun! (gratis saldo 1000000 untuk fresh account)\n")
 
 def login():
     norek = str(input("Masukkan nomor rekening anda: ")).strip()
